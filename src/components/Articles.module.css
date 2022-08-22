@@ -1,0 +1,11 @@
+li {
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: grey;
+  background-color: grey;
+  border-radius: 2rem;
+  color: white;
+}
