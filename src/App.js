@@ -7,6 +7,7 @@ import { Typography } from '@mui/material';
 import { Container } from '@mui/material';
 import { AppBar } from '@mui/material';
 
+//adding comment for commit
 function App() {
   return (
     <Container maxWidth='sm' className='news'>
