@@ -1,26 +1,17 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
-import { fetchArticles, fetchTopics } from './api-calls';
-import styles from './Articles.module.css';
 import { Link } from 'react-router-dom';
 
-export default function Articles({
+export default function FilteredArticles({
   articles,
   setArticles,
   topics,
-  setTopics,
   currentTopic,
   setCurrentTopic,
 }) {
-  useEffect(() => {
-    fetchArticles().then((articleInfo) => {
-      setArticles(articleInfo);
-    });
-
-    fetchTopics().then((topicsInfo) => {
-      setTopics(topicsInfo);
-    });
-  }, []);
+  console.log(currentTopic);
+  const filteredArticles = articles.filter((article) => {
+    return article.topic === currentTopic;
+  });
+  console.log(filteredArticles);
   return (
     <section>
       <h2>Select articles by specific topic</h2>
@@ -40,7 +31,7 @@ export default function Articles({
         );
       })}
       <ul>
-        {articles.map((item) => {
+        {filteredArticles.map((item) => {
           return (
             <li key={item.title}>
               <p>Date : {item.created_at}</p>
