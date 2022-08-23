@@ -15,3 +15,11 @@ export const fetchTopics = () => {
     return res.data;
   });
 };
+
+export const fetchArticlesByTopic = (topic) => {
+  const query = `https://backend-project-sonny.herokuapp.com/api/articles?topic=${topic}`;
+  return axios.get(query).then((res) => {
+    console.log();
+    return res.data.articles;
+  });
+};

@@ -2,16 +2,12 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import { fetchArticles, fetchTopics } from './api-calls';
 import styles from './Articles.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
-export default function Articles({
-  articles,
-  setArticles,
-  topics,
-  setTopics,
-  currentTopic,
-  setCurrentTopic,
-}) {
+export default function Articles() {
+  const [articles, setArticles] = useState([]);
+  const [topics, setTopics] = useState([]);
+
   useEffect(() => {
     fetchArticles().then((articleInfo) => {
       setArticles(articleInfo);
@@ -21,6 +17,15 @@ export default function Articles({
       setTopics(topicsInfo);
     });
   }, []);
+  const { topic } = useParams();
+  let filteredArticles;
+  if (topic === 'all') {
+    filteredArticles = articles;
+  } else {
+    filteredArticles = articles.filter((article) => {
+      return article.topic === topic;
+    });
+  }
   return (
     <section>
       <h2>Select articles by specific topic</h2>
@@ -29,18 +34,13 @@ export default function Articles({
       </button>
       {topics.map((item) => {
         return (
-          <button
-            key={item.slug}
-            onClick={() => {
-              setCurrentTopic(item.slug);
-            }}
-          >
-            <Link to={`/articles/topic`}>{item.slug} | </Link>
+          <button key={item.slug}>
+            <Link to={`/articles/${item.slug}`}>{item.slug} | </Link>
           </button>
         );
       })}
       <ul>
-        {articles.map((item) => {
+        {filteredArticles.map((item) => {
           return (
             <li key={item.title}>
               <p>Date : {item.created_at}</p>
