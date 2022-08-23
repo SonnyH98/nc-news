@@ -1,5 +1,14 @@
+.news {
+  background-color: darkgray;
+}
+
+.user {
+}
+
 .App {
   text-align: center;
+  background-color: darkgray;
+  margin-top: 70px;
 }
 
 .App-logo {

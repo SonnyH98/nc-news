@@ -5,7 +5,12 @@ li {
   align-items: center;
   justify-content: center;
   border: grey;
-  background-color: grey;
+  background-color: rgb(45, 48, 50);
   border-radius: 2rem;
   color: white;
+  margin: 1rem;
+}
+
+p {
+  margin: 1rem;
 }
