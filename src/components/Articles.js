@@ -43,7 +43,9 @@ export default function Articles() {
           return (
             <li key={item.title}>
               <p>Date : {item.created_at}</p>
-              <p>{item.title}</p>
+              <Link className='specific-article' to={`/article/${item.article_id}`}> 
+                <p>{item.title}</p>
+              </Link>
               <p>Topic : {item.topic}</p>
               <p>Comment Count : {item.comment_count}</p>
               <p>Votes : {item.votes}</p>

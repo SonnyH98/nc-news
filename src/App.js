@@ -2,6 +2,7 @@ import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Articles from './components/Articles';
+import SpecificArticle from './components/SpecificArticle';
 import { useState } from 'react';
 import { Typography } from '@mui/material';
 import { Container } from '@mui/material';
@@ -23,7 +24,13 @@ function App() {
           <Link to={'/articles/all'}>Articles</Link> {'  |  '}
         </Typography>
         <Routes>
-          <Route path='/articles/:topic' element={<Articles />}></Route>
+          <Route path='/articles/:topic' element={<Articles />}>
+            
+          </Route>
+          <Route
+            path='/article/:article_id'
+            element={<SpecificArticle />}
+          ></Route>
         </Routes>
       </BrowserRouter>
     </Container>
