@@ -1,31 +1,30 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import { fetchArticles, fetchTopics } from './api-calls';
+import { fetchArticles, fetchTopics, fetchArticlesByTopic } from './api-calls';
 import styles from './Articles.module.css';
 import { Link, useParams } from 'react-router-dom';
 
 export default function Articles() {
   const [articles, setArticles] = useState([]);
   const [topics, setTopics] = useState([]);
+  const { topic } = useParams();
 
   useEffect(() => {
-    fetchArticles().then((articleInfo) => {
-      setArticles(articleInfo);
-    });
+    if (topic === 'all') {
+      fetchArticles().then((articleInfo) => {
+        setArticles(articleInfo);
+      });
+    } else {
+      fetchArticlesByTopic(topic).then((articleInfo) => {
+        setArticles(articleInfo);
+      });
+    }
 
     fetchTopics().then((topicsInfo) => {
       setTopics(topicsInfo);
     });
-  }, []);
-  const { topic } = useParams();
-  let filteredArticles;
-  if (topic === 'all') {
-    filteredArticles = articles;
-  } else {
-    filteredArticles = articles.filter((article) => {
-      return article.topic === topic;
-    });
-  }
+  }, [topic]);
+
   return (
     <section>
       <h2>Select articles by specific topic</h2>
@@ -40,7 +39,7 @@ export default function Articles() {
         );
       })}
       <ul>
-        {filteredArticles.map((item) => {
+        {articles.map((item) => {
           return (
             <li key={item.title}>
               <p>Date : {item.created_at}</p>
