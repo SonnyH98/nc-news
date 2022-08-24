@@ -1,16 +1,22 @@
 import { ListItem } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchArticleById } from './api-calls';
+import { fetchArticleById, increaseVotesByArticleId, decreaseVotesByArticleId } from './api-calls';
 
 export default function SpecificArticle() {
   const { article_id } = useParams();
   const [article, setArticle] = useState({});
+  const [err, setErr] = useState(null);
+  const [voteCount, setVoteCount] = useState(0)
+
   useEffect(() => {
     fetchArticleById(article_id).then((articleInfo) => {
       setArticle(articleInfo);
     });
   }, []);
+
+  if(err) {return <p>{err}</p>}
+
   return (
     <section>
       <p>-----------------------------------</p>
@@ -21,7 +27,24 @@ export default function SpecificArticle() {
       </h2>
       <p>{article.body}</p>
       <p>Comment Count: {article.comment_count}</p>
-      <p>Votes: {article.votes}</p>
+      <p className='votes'>Votes: {article.votes + voteCount}</p>
+      <button onClick={() => {
+        setVoteCount((currCount) => currCount + 1)
+        increaseVotesByArticleId(article.article_id).catch((err)=> {
+            setVoteCount((currCount) => currCount - 1);
+            setErr('Something went wrong, please try again')
+        })
+      }}>Increase the votes</button>
+      <button onClick={() => {
+        setVoteCount((currCount) => currCount -1)
+        decreaseVotesByArticleId(article.article_id).catch((err)=> {
+            setVoteCount((currCount) => currCount + 1);
+            setErr('Something went wrong, please try again')
+        })
+      }}>Decrease the votes</button>
     </section>
   );
 }
+
+
+
