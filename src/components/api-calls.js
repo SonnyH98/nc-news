@@ -24,7 +24,6 @@ export const fetchArticlesByTopic = (topic) => {
 export const fetchArticleById = (article_id) => {
   const query = `https://backend-project-sonny.herokuapp.com/api/articles/${article_id}`;
   return axios.get(query).then((res) => {
-    console.log(res.data);
     return res.data.article;
   });
 };
@@ -32,7 +31,6 @@ export const fetchArticleById = (article_id) => {
 export const increaseVotesByArticleId =(article_id) => {
   const query = `https://backend-project-sonny.herokuapp.com/api/articles/${article_id}`;
   return axios.patch(query, {inc_votes : '1'}).then((res) => {
-    console.log(res.data);
     return res.data.article;
   });
 }
@@ -40,8 +38,14 @@ export const increaseVotesByArticleId =(article_id) => {
 export const decreaseVotesByArticleId =(article_id) => {
   const query = `https://backend-project-sonny.herokuapp.com/api/articles/${article_id}`;
   return axios.patch(query, {inc_votes : '-1'}).then((res) => {
-    console.log(res.data);
     return res.data.article;
+  });
+}
+
+export const fetchCommentsByArticleId = (article_id) => {
+  const query = `https://backend-project-sonny.herokuapp.com/api/articles/${article_id}/comments`
+  return axios.get(query).then((res) => {
+    return res.data.comments;
   });
 }
 
