@@ -2,12 +2,16 @@ import { ListItem } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchArticleById, increaseVotesByArticleId, decreaseVotesByArticleId } from './api-calls';
+import Comments from './Comments';
 
 export default function SpecificArticle() {
   const { article_id } = useParams();
   const [article, setArticle] = useState({});
   const [err, setErr] = useState(null);
   const [voteCount, setVoteCount] = useState(0)
+  const [viewComments, setViewComments] = useState(true)
+
+
 
   useEffect(() => {
     fetchArticleById(article_id).then((articleInfo) => {
@@ -17,6 +21,7 @@ export default function SpecificArticle() {
 
   if(err) {return <p>{err}</p>}
 
+  console.log(article.article_id);
   return (
     <section>
       <p>-----------------------------------</p>
@@ -26,7 +31,7 @@ export default function SpecificArticle() {
         {article.title} by {article.author}
       </h2>
       <p>{article.body}</p>
-      <p>Comment Count: {article.comment_count}</p>
+      
       <p className='votes'>Votes: {article.votes + voteCount}</p>
       <button onClick={() => {
         setVoteCount((currCount) => currCount + 1)
@@ -42,6 +47,14 @@ export default function SpecificArticle() {
             setErr('Something went wrong, please try again')
         })
       }}>Decrease the votes</button>
+      <p>Comment Count: {article.comment_count}</p>
+      <button onClick={() => {
+        setViewComments((currBool) => {
+            return !currBool
+        })
+        console.log(viewComments);
+      }}>View/Close comments</button>
+      <Comments viewComments={viewComments} />
     </section>
   );
 }
