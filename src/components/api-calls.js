@@ -28,3 +28,20 @@ export const fetchArticleById = (article_id) => {
     return res.data.article;
   });
 };
+
+export const increaseVotesByArticleId =(article_id) => {
+  const query = `https://backend-project-sonny.herokuapp.com/api/articles/${article_id}`;
+  return axios.patch(query, {inc_votes : '1'}).then((res) => {
+    console.log(res.data);
+    return res.data.article;
+  });
+}
+
+export const decreaseVotesByArticleId =(article_id) => {
+  const query = `https://backend-project-sonny.herokuapp.com/api/articles/${article_id}`;
+  return axios.patch(query, {inc_votes : '-1'}).then((res) => {
+    console.log(res.data);
+    return res.data.article;
+  });
+}
+
