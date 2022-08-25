@@ -19,6 +19,7 @@ export default function Comments({ viewComments }) {
 
 //sort the comments in descending order
 comments.sort((a,b) => b.comment_id - a.comment_id)
+//change this for a query in back-end once front-end tickets are finished.
 
 
   const handleSubmit = (event) => {
