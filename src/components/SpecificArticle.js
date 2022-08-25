@@ -21,7 +21,6 @@ export default function SpecificArticle() {
 
   if(err) {return <p>{err}</p>}
 
-  console.log(article.article_id);
   return (
     <section>
       <p>-----------------------------------</p>
@@ -52,7 +51,6 @@ export default function SpecificArticle() {
         setViewComments((currBool) => {
             return !currBool
         })
-        console.log(viewComments);
       }}>View/Close comments</button>
       <Comments viewComments={viewComments} />
     </section>

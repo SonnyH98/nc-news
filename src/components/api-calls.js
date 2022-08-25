@@ -49,3 +49,12 @@ export const fetchCommentsByArticleId = (article_id) => {
   });
 }
 
+export const postCommentByArticleId = (article_id, newComment) => {
+  console.log(article_id, newComment);
+  const query = `https://backend-project-sonny.herokuapp.com/api/articles/${article_id}/comments`
+  return axios.post(query, newComment).then((res) => {
+    console.log(res.data);
+    return res.data.comments;
+  })
+}
+
