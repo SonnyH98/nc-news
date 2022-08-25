@@ -34,7 +34,6 @@ export default function Articles() {
     }
     fetchArticlesWithQueries(topic, sort_by, order_by)
     .then((articleInfo)=> {
-      console.log(articleInfo);
       setArticles(articleInfo)
     })
 
@@ -54,7 +53,7 @@ export default function Articles() {
         );
       })}
       <p>By default the articles are sorted by date and in descending order, please use the drop-down boxes below if you wish to change this.</p>
-      <form onSubmit={handleSubmit} action='/' method='GET'>
+      <form onSubmit={handleSubmit} >
         <label htmlFor='sort-by'>Sort By:</label>
 
         <select name='sort-by' id='sort-by' 
