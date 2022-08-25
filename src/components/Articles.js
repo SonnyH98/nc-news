@@ -7,7 +7,7 @@ import { Link, useParams } from 'react-router-dom';
 export default function Articles() {
   const [articles, setArticles] = useState([]);
   const [topics, setTopics] = useState([]);
-  const { topic } = useParams();
+  let { topic } = useParams();
 
   useEffect(() => {
     if (topic === 'all') {
@@ -29,8 +29,12 @@ export default function Articles() {
     event.preventDefault()
     const sort_by = event.target[0].value
     const order_by = event.target[1].value
+    if(topic==='all'){
+      topic = ''
+    }
     fetchArticlesWithQueries(topic, sort_by, order_by)
     .then((articleInfo)=> {
+      console.log(articleInfo);
       setArticles(articleInfo)
     })
 

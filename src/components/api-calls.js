@@ -57,9 +57,9 @@ export const postCommentByArticleId = (article_id, newComment) => {
 }
 
 export const fetchArticlesWithQueries = (topic, sort_by, order_by) => {
+  console.log(topic, sort_by, order_by);
   const query = `https://backend-project-sonny.herokuapp.com/api/articles?topic=${topic}&sort_by=${sort_by}&order=${order_by}`;
   return axios.get(query).then((res) => {
-    console.log(res.data);
     return res.data.articles;
   });
 };
