@@ -7,6 +7,8 @@ export default function Comments({ viewComments }) {
   const { article_id } = useParams();
   const [comments, setComments] = useState([]);
   const [bool,setBool] = useState(true)
+  const [newCommentMessage, setNewCommentMessage] = useState(null);
+  
 
   useEffect(() => {
     fetchCommentsByArticleId(article_id).then((commentInfo) => {
@@ -27,18 +29,20 @@ comments.sort((a,b) => b.comment_id - a.comment_id)
         username, 
         body
     }
-    console.log(newComment);
-    console.log(article_id);
     postCommentByArticleId(article_id, newComment)
     .then((res) => {
-        alert("Your comment has been uploaded. Press ok to refresh the page and see your comment.")
+      setNewCommentMessage("Your comment has been uploaded. Press wait for the comment to show.")
         setBool((currBool) => {
             return !currBool
         })
-        console.log(res);
     }).catch((err) => {
-        alert("INVALID COMMENT! Ensure your name is a valid user!")
+      setNewCommentMessage('Something went wrong, please try again.')
     })
+  }
+
+  let message = ''
+  if(newCommentMessage){
+    message = newCommentMessage
   }
 
   if (viewComments) {
@@ -50,10 +54,11 @@ comments.sort((a,b) => b.comment_id - a.comment_id)
           <input className='input' type='text' name='commentName' id='comment-name' />
           <br/> <br/>
           <label htmlFor='comment-name'>Comment: </label>
-          <input  className='input' type='text' name='commentName' id='comment-name' />
+          <textarea  className='input' type='text' name='commentName' id='comment-name' />
           <br />
           <button id='submit-button'>Add to comments</button>
         </form>
+        {message}
         <ul>
           {comments.map((comment) => {
             return (
