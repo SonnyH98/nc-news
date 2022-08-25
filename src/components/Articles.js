@@ -1,13 +1,13 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import { fetchArticles, fetchTopics, fetchArticlesByTopic } from './api-calls';
+import { fetchArticles, fetchTopics, fetchArticlesByTopic, fetchArticlesWithQueries } from './api-calls';
 import styles from './Articles.module.css';
 import { Link, useParams } from 'react-router-dom';
 
 export default function Articles() {
   const [articles, setArticles] = useState([]);
   const [topics, setTopics] = useState([]);
-  const { topic } = useParams();
+  let { topic } = useParams();
 
   useEffect(() => {
     if (topic === 'all') {
@@ -25,6 +25,20 @@ export default function Articles() {
     });
   }, [topic]);
 
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    const sort_by = event.target[0].value
+    const order_by = event.target[1].value
+    if(topic==='all'){
+      topic = ''
+    }
+    fetchArticlesWithQueries(topic, sort_by, order_by)
+    .then((articleInfo)=> {
+      setArticles(articleInfo)
+    })
+
+  }
+
   return (
     <section>
       <h2>Select articles by specific topic</h2>
@@ -38,14 +52,39 @@ export default function Articles() {
           </button>
         );
       })}
+      <p>By default the articles are sorted by date and in descending order, please use the drop-down boxes below if you wish to change this.</p>
+      <form onSubmit={handleSubmit} >
+        <label htmlFor='sort-by'>Sort By:</label>
+
+        <select name='sort-by' id='sort-by' 
+        defaultValue={'created_at'}>
+          <option value='created_at' >Date</option>
+          <option value='comment_count'>Comment Count</option>
+          <option value='votes'>Votes</option>
+          <option value='author'>Author</option>
+        </select>
+        <br/>
+        <label htmlFor='order-by'>Order-by:</label>
+
+        <select name='order-by' id='order-by' defaultValue={'DESC'}>
+          <option value='ASC'>Ascending</option>
+          <option value='DESC' >Descending</option>
+        </select>
+        <br/>
+        <button>Submit choices</button>
+      </form>
       <ul>
         {articles.map((item) => {
           return (
             <li key={item.title}>
               <p>Date : {item.created_at}</p>
-              <Link className='specific-article' to={`/article/${item.article_id}`}> 
+              <Link
+                className='specific-article'
+                to={`/article/${item.article_id}`}
+              >
                 <p>{item.title}</p>
               </Link>
+              <p>Author: {item.author}</p>
               <p>Topic : {item.topic}</p>
               <p>Comment Count : {item.comment_count}</p>
               <p>Votes : {item.votes}</p>
