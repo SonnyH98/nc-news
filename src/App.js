@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Articles from './components/Articles';
 import Users from './components/Users';
+import ErrorPage from './components/ErrorPage';
 import SpecificArticle from './components/SpecificArticle';
 import { useState } from 'react';
 import { Typography } from '@mui/material';
@@ -13,10 +14,11 @@ import { UserContext } from './contexts/User';
 //adding comment for commit
 function App() {
   const [user, setUser] = useState('cooljmessy');
+  const [err, setErr] = useState(null);
   return (
     <Container maxWidth='sm' className='news'>
       <BrowserRouter>
-      <UserContext.Provider value={{ user, setUser }}>
+      <UserContext.Provider value={{ user, setUser, err, setErr }}>
         <AppBar>
           <Typography variant='h2'>NC-News</Typography>
         </AppBar>
@@ -25,7 +27,9 @@ function App() {
           Current User:  {user}
         </Typography>
         <Typography variant='subtitle1'>
-          <Link to={'/articles/all'}>Articles</Link> {'  |  '}
+          <Link onClick={()=> {
+            setErr(null)
+          }} to={'/articles/all'}>Articles</Link> {'  |  '}
           <Link to={'/users'}>Users</Link> {'  |  '}
         </Typography>
         <Routes>
@@ -39,6 +43,7 @@ function App() {
             path='/article/:article_id'
             element={<SpecificArticle />}
           ></Route>
+          <Route path='*' element={<ErrorPage />}></Route>
         </Routes>
         </UserContext.Provider>
       </BrowserRouter>

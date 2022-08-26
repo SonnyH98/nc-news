@@ -14,6 +14,9 @@ export default function Comments({ viewComments }) {
   const [bool, setBool] = useState(true);
   const [newCommentMessage, setNewCommentMessage] = useState(null);
   const [newDeleteMessage, setNewDeleteMessage] = useState(null);
+  const [addComment, setAddComment] = useState(false)
+
+
 
   function timeout(delay) {
     return new Promise( res => setTimeout(res, delay) );
@@ -46,12 +49,18 @@ export default function Comments({ viewComments }) {
         setNewCommentMessage(
           'Your comment has been uploaded. Press wait for the comment to show.'
         );
+        timeout(2000).then(() => {
+          setNewCommentMessage('')
+        })
         setBool((currBool) => {
           return !currBool;
         });
       })
       .catch((err) => {
-        setNewCommentMessage('Something went wrong, please try again.');
+        setNewCommentMessage('Something went wrong, please try again.')
+        timeout(2000).then(() => {
+          setNewCommentMessage('')
+        })
       });
   };
 
@@ -69,7 +78,7 @@ export default function Comments({ viewComments }) {
   if (viewComments) {
     return (
       <section>
-        <form onSubmit={handleSubmit} action='/' method='POST'>
+        <form  onSubmit={handleSubmit} action='/' method='POST'>
           <h3>Add a comment</h3>
           <label htmlFor='comment-name'>Name: </label>
           <input
@@ -80,14 +89,21 @@ export default function Comments({ viewComments }) {
           />
           <br /> <br />
           <label htmlFor='comment-name'>Comment: </label>
-          <textarea
+          <textarea onChange={(event) => {
+            if(event.target.value.length === 0){
+              setAddComment(false)
+            }else{
+              setAddComment(true)
+            }
+            
+          }}
             className='input'
             type='text'
             name='commentName'
             id='comment-name'
           />
           <br />
-          <button id='submit-button'>Add to comments</button>
+          <button disabled={!addComment} id='submit-button'>Add to comments</button>
         </form>
         {message}
         <ul>
