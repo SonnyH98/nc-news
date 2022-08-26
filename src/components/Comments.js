@@ -15,16 +15,19 @@ export default function Comments({ viewComments }) {
   const [newCommentMessage, setNewCommentMessage] = useState(null);
   const [newDeleteMessage, setNewDeleteMessage] = useState(null);
 
-  function timeout(delay: number) {
+  function timeout(delay) {
     return new Promise( res => setTimeout(res, delay) );
 }
+
+
 
 
   useEffect(() => {
     fetchCommentsByArticleId(article_id).then((commentInfo) => {
       setComments(commentInfo);
     });
-  }, [bool]);
+  }, [bool, article_id]);
+
 
   //sort the comments in descending order
   comments.sort((a, b) => b.comment_id - a.comment_id);
