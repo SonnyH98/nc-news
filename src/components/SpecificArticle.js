@@ -1,8 +1,9 @@
-import { ListItem } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchArticleById, increaseVotesByArticleId, decreaseVotesByArticleId } from './api-calls';
 import Comments from './Comments';
+
+
 
 export default function SpecificArticle() {
   const { article_id } = useParams();
@@ -18,6 +19,8 @@ export default function SpecificArticle() {
       setArticle(articleInfo);
     });
   }, []);
+
+
 
   if(err) {return <p>{err}</p>}
 
