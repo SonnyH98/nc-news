@@ -62,3 +62,18 @@ export const fetchArticlesWithQueries = (topic, sort_by, order_by) => {
     return res.data.articles;
   });
 };
+
+export const fetchUsers = () => {
+  const query = `https://backend-project-sonny.herokuapp.com/api/users`;
+  return axios.get(query).then((res) => {
+    return res.data.users;
+  });
+};
+
+export const deleteComment = (comment_id) => {
+  const query = `https://backend-project-sonny.herokuapp.com/api/comments/${comment_id}`;
+  return axios.delete(query).then((res) => {
+    console.log(res.data);
+    return res.data;
+  });
+}

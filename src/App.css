@@ -6,8 +6,6 @@
   background-color: darkgray;
 }
 
-
-
 .App {
   text-align: center;
   background-color: darkgray;
@@ -49,8 +47,12 @@
   }
 }
 
-.votes{
+.votes {
   font-size: 1.4rem;
-  font-weight: bold
+  font-weight: bold;
 }
 
+.user-imgs {
+  height: 100px;
+  width: 100px;
+}
